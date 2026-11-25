@@ -990,7 +990,7 @@ setInterval(()=>{if(document.hidden&&rec&&ctx)drawStage()},33);
 requestAnimationFrame(frame);
 
 /* ---------- cadastro simples ---------- */
-const API=''; // cole aqui o endereço do Apps Script (termina em /exec) — o mesmo da lista de espera
+const API='https://script.google.com/macros/s/AKfycbz5gRifHTT0t7al3sd4CW6X4BDLTp7ElZNiy765H5NCxjMmVLku07ihhTrtbYVFyZQ/exec'; // cole aqui o endereço do Apps Script (termina em /exec) — o mesmo da lista de espera
 let me=store.get('me',null);
 const apiPost=o=>{if(!API)return;try{fetch(API,{method:'POST',mode:'no-cors',body:new URLSearchParams(o)}).catch(()=>{})}catch(e){}};
 function openBooth(){ensureAudio();$('#gate').remove();initMidi();refreshDevices();$('#bMe').textContent=me.dj;
