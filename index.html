@@ -14,7 +14,7 @@
    COLOUR/TYPE: grafite, deck A verde-água, deck B laranja; Archivo + mono nos números
    LAYOUT: deck | mixer | deck, depois tela de vídeo e painéis */
 :root{--bg:#0e0f12;--panel:#17191e;--panel2:#20232a;--line:#2c3038;--ink:#ece9e3;--mute:#8d919a;--a:#2ec4b6;--b:#ff8a3d;--rec:#ff3b4e;--ok:#7bd88f;--warn:#ffd166;color-scheme:dark}
-*{box-sizing:border-box;min-width:0}
+*{box-sizing:border-box;min-width:0}[hidden]{display:none!important}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Archivo,system-ui,sans-serif;overflow-x:clip}
 button,.btn{font:inherit;color:inherit;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;user-select:none;-webkit-user-select:none}
 button:hover,.btn:hover{border-color:#4a505c}
@@ -160,6 +160,13 @@ body.tlon canvas.wz{display:none}body:not(.tlon) #tlc{display:none}
 .mtop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding-bottom:6px;border-bottom:1px solid var(--line)}.mtop .knob{width:34px;height:34px}
 .kr{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;justify-items:center;gap:4px}.kr span{font-size:11px;color:var(--mute);text-align:center}.kr .knob{width:clamp(32px,4.6vh,40px);height:clamp(32px,4.6vh,40px)}.kh b{font-weight:800}
 .cbtn{width:100%}.mfad{display:flex;justify-content:center;gap:10px;align-items:stretch}.mfad .fader.v,.mfad .meter{height:clamp(96px,15vh,170px)}.mfad .meter i{background-size:100% clamp(96px,15vh,170px)}
+.eqbox{width:min(760px,100%);max-height:92vh;overflow:auto}#eqm{z-index:40}
+.eqg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.eqg button{flex-direction:column;align-items:flex-start;text-align:left;min-height:62px;padding:8px 10px;gap:2px}
+.eqg button small{color:var(--mute);font-size:11px}.eqg button b{font-size:14px}.eqg button.on{border-color:var(--a);background:#173532}
+.eqd{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;background:#121418}
+.eqd .tag{align-self:flex-start;display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}.tag.ok{background:#1f3b2a;color:var(--ok)}.tag.need{background:#3b2a12;color:var(--warn)}.tag.chk{background:#2a2e36;color:var(--ink)}
+.eqd ol{margin:0;padding-left:20px;color:#d6d3cd;font-size:14px}.eqd a.dl{display:inline-flex;align-self:flex-start;width:max-content;max-width:100%;white-space:nowrap;background:var(--b);color:#0b0c0f;font-weight:800;padding:10px 16px;border-radius:10px;text-decoration:none}
+#eqGo{background:var(--a);color:#0b0c0f;border:0;font-weight:800}#eqGo:disabled{opacity:.5;cursor:not-allowed}.glink2{background:none;border:0;color:var(--mute);text-decoration:underline}
 .hidev{position:fixed;width:2px;height:2px;opacity:0;pointer-events:none;left:0;top:0}
 @media(prefers-reduced-motion:reduce){#toast{transition:none}}
 </style>
@@ -175,16 +182,16 @@ body.tlon canvas.wz{display:none}body:not(.tlon) #tlc{display:none}
     <label>E-mail<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
     <div class="g2"><label>Cidade<input name="cidade" maxlength="60" autocomplete="address-level2"></label>
     <label>Você já toca?<select name="nivel"><option>Nunca toquei</option><option>Toco por hobby</option><option>Toco em festas e eventos</option><option>Sou DJ profissional</option></select></label></div>
-    <label>Controladora<select name="ctrl"><option>Nenhuma (teclado e mouse)</option><option>Pioneer DDJ-FLX4</option><option>Pioneer DDJ-400</option><option>Pioneer XDJ-RX3</option><option>Outra Pioneer / AlphaTheta</option><option>Hercules</option><option>Numark</option><option>Denon DJ</option><option>Traktor / Native Instruments</option><option>Outra</option></select></label>
     <label class="gc"><input type="checkbox" name="consent" value="sim"> Concordo que o 4DJClub guarde estes dados para o meu acesso e para falar comigo sobre o projeto. Posso pedir para apagar quando quiser.</label>
-    <button type="submit">Criar meu acesso e entrar</button><p class="gmsg" id="gMsg" role="status"></p>
+    <button type="submit">Criar meu acesso</button><p class="gmsg" id="gMsg" role="status"></p>
   </form>
 </div></div>
 
 <header class="top">
-  <div class="brand"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="#2ec4b6" stroke-width="3"/><circle cx="19" cy="15" r="9" fill="none" stroke="#ff8a3d" stroke-width="3"/></svg>4DJClub <span>v0.10 · B2B</span></div>
+  <div class="brand"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="#2ec4b6" stroke-width="3"/><circle cx="19" cy="15" r="9" fill="none" stroke="#ff8a3d" stroke-width="3"/></svg>4DJClub <span>v0.11 · B2B</span></div>
   <div class="tools">
     <button id="bMe" title="Sua conta">—</button>
+    <button id="bEq" title="Trocar ou configurar o equipamento">Equipamento</button>
     <button id="bQ" class="on" title="Play, hot cue e loop caem sempre na batida do outro deck">Quantize</button>
     <button id="bKeys" title="Atalhos de teclado (?)">Teclado</button>
     <button id="bCam">Câmera</button>
@@ -274,6 +281,13 @@ body.tlon canvas.wz{display:none}body:not(.tlon) #tlc{display:none}
   <tr><td>Gravar</td><td colspan="2"><kbd>G</kbd></td></tr>
   </tbody></table>
   <div class="btns"><button id="kClose">Fechar</button></div>
+</div></div>
+<div id="eqm" class="modal" hidden><div class="panel mbox eqbox" role="dialog" aria-labelledby="eqT">
+  <h2 id="eqT">Qual é o seu equipamento?</h2>
+  <p class="hint">Escolha o que você vai usar para tocar. Se ele precisar de driver, mostramos o link oficial do fabricante para baixar e instalar antes de ligar.</p>
+  <div class="eqg" id="eqGrid"></div>
+  <div class="eqd" id="eqDet" hidden></div>
+  <div class="btns"><button id="eqGo" disabled>Continuar para a cabine</button><button id="eqClose" class="glink2">Fechar</button></div>
 </div></div>
 <div id="toast" role="status"></div>
 
@@ -905,7 +919,7 @@ const flashKey=id=>{for(const el of (C[id]||{els:[]}).els){el.classList.add('hit
 document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target;
   if(t.closest&&(t.closest('input,select,textarea,.knob,.fader')))return;
   if(e.key==='?'){$('#keys').hidden=false;return}if(e.key==='Escape'){$('#keys').hidden=true;$('#b2b').hidden=true;return}
-  if(!$('#keys').hidden||!$('#b2b').hidden||$('#gate'))return;
+  if(!$('#keys').hidden||!$('#b2b').hidden||!$('#eqm').hidden||$('#gate'))return;
   if(e.code==='KeyG'){if(!e.repeat)$('#bRec').click();return}
   const k=KEYS[e.code];if(!k)return;e.preventDefault();ensureAudio();const [kind,id,val]=k;
   if(kind==='b'){if(e.repeat)return;press(id,e.shiftKey&&/hc/.test(id)?'clear':undefined);flashKey(id)}
@@ -989,6 +1003,43 @@ function frame(){requestAnimationFrame(frame);if(!ctx)return;
 setInterval(()=>{if(document.hidden&&rec&&ctx)drawStage()},33);
 requestAnimationFrame(frame);
 
+
+/* ---------- seleção de equipamento e drivers ---------- */
+const OSW=/Windows/i.test(navigator.userAgent),OSM=/Mac OS|Macintosh/i.test(navigator.userAgent);
+const PIO='https://www.pioneerdj.com/en/support/software/';
+const EQUIP=[
+ {id:'kbd',nome:'Teclado e mouse',marca:'Sem controladora',drv:'none',passos:['Nada para instalar.','Na cabine, aperte ? para ver os atalhos de teclado.']},
+ {id:'flx4',nome:'DDJ-FLX4',marca:'Pioneer DJ',drv:'none',prof:'flx4',link:PIO+'controller/ddj-flx4/'},
+ {id:'ddj400',nome:'DDJ-400',marca:'Pioneer DJ',drv:'none',prof:'ddj400',link:PIO+'ddj-400/'},
+ {id:'flx6',nome:'DDJ-FLX6',marca:'Pioneer DJ',drv:'none',link:PIO},
+ {id:'sb3',nome:'DDJ-SB3',marca:'Pioneer DJ',drv:'none',prof:'sb3',link:PIO+'ddj-sb3/'},
+ {id:'sb2',nome:'DDJ-SB2',marca:'Pioneer DJ',drv:'check',prof:'sb2',link:PIO},
+ {id:'rx3',nome:'XDJ-RX3',marca:'Pioneer DJ',drv:'both',link:PIO+'xdj-rx3/#drivers',passos:['Baixe e instale o driver oficial do XDJ-RX3 para o seu sistema.','Reinicie o computador se o instalador pedir.','Ligue a RX3 por USB no modo PC/MIDI antes de abrir a cabine.','Na cabine, escolha a RX3 em "Saída de áudio" e rode o "Assistente passo a passo" uma vez.']},
+ {id:'pio',nome:'Outro Pioneer DJ',marca:'XDJ-XZ, FLX10, REV7…',drv:'check',link:PIO,nota:'Alguns modelos, como XDJ-XZ, DDJ-FLX10, DDJ-REV7 e o DDJ-SB original, pedem driver no Windows. Procure o seu modelo na página de software da Pioneer DJ.'},
+ {id:'herc',nome:'Hercules',marca:'DJControl',drv:'check',link:'https://support.hercules.com/'},
+ {id:'numark',nome:'Numark',marca:'Mixtrack, Party Mix…',drv:'check',link:'https://www.numark.com/'},
+ {id:'denon',nome:'Denon DJ',marca:'SC, MC, Prime…',drv:'check',link:'https://www.denondj.com/'},
+ {id:'ni',nome:'Traktor',marca:'Native Instruments',drv:'check',link:'https://www.native-instruments.com/'},
+ {id:'other',nome:'Outra controladora',marca:'Qualquer marca MIDI',drv:'check'}];
+let eqSel=null,eqThen=null;
+function eqTag(e){if(e.drv==='none')return['ok','Não precisa de driver'];if(e.drv==='both')return['need',`Precisa de driver${OSW?' (Windows)':OSM?' (Mac)':''}`];if(e.drv==='win')return OSW?['need','Precisa de driver no Windows']:['ok','No Mac não precisa de driver'];return['chk','Confira no site do fabricante']}
+function eqRender(){const g=$('#eqGrid');g.innerHTML='';for(const e of EQUIP){const b=document.createElement('button');b.type='button';b.dataset.eq=e.id;b.classList.toggle('on',eqSel===e.id);
+    const n=document.createElement('b');n.textContent=e.nome;const m=document.createElement('small');m.textContent=e.marca;b.append(n,m);b.onclick=()=>{eqSel=e.id;eqRender()};g.appendChild(b)}
+  const d=$('#eqDet'),e=EQUIP.find(x=>x.id===eqSel);$('#eqGo').disabled=!e;d.hidden=!e;if(!e)return;d.innerHTML='';
+  const [cls,txt]=eqTag(e),t=document.createElement('span');t.className='tag '+cls;t.textContent=txt;const h=document.createElement('b');h.textContent=`${e.nome} · ${e.marca}`;d.append(h,t);
+  const passos=e.passos||(e.drv==='none'?['Ligue no USB antes de abrir a cabine: o sistema reconhece sozinho.',e.prof?'A cabine carrega o mapeamento pronto deste modelo.':'Na cabine, rode o "Assistente passo a passo" no painel MIDI uma vez.','Vale manter o firmware em dia pela página oficial.']:
+    ['Abra a página oficial e procure o seu modelo.','Se houver driver para o seu sistema, baixe e instale antes de ligar.','Ligue por USB antes de abrir a cabine e rode o "Assistente passo a passo" no painel MIDI.']);
+  if(e.nota){const p=document.createElement('p');p.className='hint';p.textContent=e.nota;d.appendChild(p)}
+  const ol=document.createElement('ol');for(const x of passos){const li=document.createElement('li');li.textContent=x;ol.appendChild(li)}d.appendChild(ol);
+  if(e.link){const a=document.createElement('a');a.className='dl';a.href=e.link;a.target='_blank';a.rel='noopener';a.textContent=e.drv==='none'?'Abrir firmware e suporte oficial ↗':'Baixar driver no site oficial ↗';d.appendChild(a)}}
+function openEq(then){eqThen=then||null;eqSel=me&&me.eq||null;eqRender();$('#eqClose').hidden=!!then;$('#eqm').hidden=false}
+$('#eqClose').onclick=()=>{$('#eqm').hidden=true};
+$('#eqGo').onclick=()=>{const e=EQUIP.find(x=>x.id===eqSel);if(!e)return;me.eq=e.id;me.ctrl=e.nome;store.set('me',me);
+  if(e.prof){store.set('profile',e.prof);try{fillProf();$('#prof').value=e.prof;markMapped()}catch(x){}}
+  apiPost({tipo:'cadastro',dj:me.dj,email:me.email,cidade:me.cidade||'',nivel:me.nivel||'',controladora:e.nome,consent:'sim'});
+  $('#eqm').hidden=true;const f=eqThen;eqThen=null;if(f)f()};
+$('#bEq').onclick=()=>openEq();
+
 /* ---------- cadastro simples ---------- */
 const API='https://script.google.com/macros/s/AKfycbz5gRifHTT0t7al3sd4CW6X4BDLTp7ElZNiy765H5NCxjMmVLku07ihhTrtbYVFyZQ/exec'; // cole aqui o endereço do Apps Script (termina em /exec) — o mesmo da lista de espera
 let me=store.get('me',null);
@@ -997,14 +1048,14 @@ function openBooth(){ensureAudio();$('#gate').remove();initMidi();refreshDevices
   if(!$('#djName').value)$('#djName').value=me.dj;if(!$('#nmB').value)$('#nmB').value=me.dj;apiPost({tipo:'acesso',email:me.email,dj:me.dj})}
 function showGate(){$('#gWho').hidden=!me;$('#gForm').hidden=!!me;if(me)$('#gName').textContent=me.dj}
 showGate();
-$('#go').onclick=openBooth;
+$('#go').onclick=()=>{if(!me.eq)openEq(openBooth);else openBooth()};
 $('#gSwitch').onclick=()=>{me=null;store.set('me',null);showGate()};
 $('#gForm').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target),m=$('#gMsg'),v=k=>String(f.get(k)||'').trim();
   const dj=v('dj'),email=v('email').toLowerCase();
   if(!dj){m.textContent='Escreva seu nome artístico.';return}if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){m.textContent='Confira o e-mail.';return}
   if(!f.get('consent')){m.textContent='Marque a autorização para criar o acesso.';return}
-  me={dj:dj.slice(0,40),email,cidade:v('cidade').slice(0,60),nivel:v('nivel'),ctrl:v('ctrl'),criado:new Date().toISOString()};store.set('me',me);store.set('name',me.dj);
-  apiPost({tipo:'cadastro',dj:me.dj,email,cidade:me.cidade,nivel:me.nivel,controladora:me.ctrl,consent:'sim'});openBooth()});
+  me={dj:dj.slice(0,40),email,cidade:v('cidade').slice(0,60),nivel:v('nivel'),ctrl:'',criado:new Date().toISOString()};store.set('me',me);store.set('name',me.dj);
+  apiPost({tipo:'cadastro',dj:me.dj,email,cidade:me.cidade,nivel:me.nivel,controladora:'',consent:'sim'});openEq(openBooth)});
 $('#bMe').onclick=()=>{if(window.confirm(`Sair da conta ${me?me.dj:''}? A cabine vai recarregar.`)){store.set('me',null);location.reload()}};
 window.FourDJ={host,join,leave,SC,decks,C,press,setCtl,A,get ctx(){return ctx},analyze,loadRaw,startRec,stopRec,net,act,mmap:()=>mmap,onMidi};
 }
