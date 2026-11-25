@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4DJClub · lista de espera</title>
+<meta name="description" content="Toque B2B com DJs de qualquer lugar, ao vivo. Aprenda do zero, grave seu set e poste. Todo mundo pode ser DJ ao menos 1 dia.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: convite de festa, direto e animado
+   IDEA: a cabine de DJ — dois decks girando um para o outro
+   PICTURE: duas jogs em verde-água e laranja com waveforms pulsando no tempo
+   COLOUR/TYPE: noite grafite, verde-água e laranja dos decks; Archivo pesado nos títulos
+   LAYOUT: manifesto e formulário na primeira tela, depois 3 passos e perguntas */
+:root{--bg:#0e0f12;--bg2:#15171c;--line:#2a2e36;--ink:#efece6;--mute:#a3a6ad;--a:#2ec4b6;--b:#ff8a3d;color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+a{color:var(--a)}
+.band{padding:clamp(28px,5vw,72px) max(5vw,18px)}
+.wrap{max-width:1180px;margin:0 auto}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px max(5vw,18px);max-width:1180px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px}
+.logo em{font-style:normal;color:var(--b)}
+nav a.ig{color:var(--ink);text-decoration:none;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,56px);align-items:center;padding-top:8px}
+h1{font-size:clamp(38px,6vw,64px);line-height:1.02;margin:0 0 18px;font-weight:900;text-wrap:balance}
+h1 span{color:var(--a)}
+.lead{font-size:18px;color:#d6d3cd;max-width:34em;margin:0 0 22px}
+.stage{position:relative;aspect-ratio:1.25;min-height:260px}
+.stage svg{position:absolute;inset:0;width:100%;height:100%}
+.spin{transform-box:fill-box;transform-origin:center;animation:spin 3.2s linear infinite}
+.spin.r{animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bar{transform-box:fill-box;transform-origin:center;animation:beat .476s ease-in-out infinite alternate}
+@keyframes beat{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+form{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,28px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+form h2{grid-column:1/-1;margin:0;font-size:22px}
+form .full{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mute)}
+input,select{font:inherit;font-size:16px;color:var(--ink);background:#0b0c0f;border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-height:46px;width:100%}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.consent{flex-direction:row;align-items:flex-start;gap:10px;color:#cfccc6;font-size:14px}
+.consent input{width:20px;min-height:20px;height:20px;margin-top:2px;flex:none}
+button{font:inherit;font-weight:800;font-size:17px;border:0;border-radius:12px;padding:14px 20px;min-height:52px;background:var(--a);color:#06231f;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+.hp{position:absolute;left:-9999px}
+.msg{grid-column:1/-1;margin:0;font-size:15px;min-height:1.2em}
+.msg.ok{color:var(--a)}.msg.err{color:var(--b)}
+.done{grid-column:1/-1;text-align:center;padding:24px 8px}
+.done b{display:block;font-size:26px;margin-bottom:8px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}
+.step{border-top:3px solid var(--a);padding-top:16px}
+.step:nth-child(2){border-color:var(--b)}.step:nth-child(3){border-color:var(--ink)}
+.step h3{margin:0 0 8px;font-size:21px}
+.step p{margin:0;color:#cfccc6}
+h2.sec{font-size:clamp(28px,4vw,40px);line-height:1.05;margin:0;text-wrap:balance}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+summary{cursor:pointer;font-weight:600;font-size:17px;min-height:30px}
+details p{color:#cfccc6;margin:10px 0 0}
+footer{color:var(--mute);font-size:14px;border-top:1px solid var(--line)}
+.preview{background:#3a2a12;color:#ffd9a8;padding:10px 16px;text-align:center;font-size:14px}
+@media(max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}.stage{order:-1;max-width:520px;width:100%;justify-self:center;aspect-ratio:1.6}.steps{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){form{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.spin,.bar{animation:none}}
+</style>
+</head>
+<body>
+<div class="preview" id="preview" hidden>Prévia: o envio do formulário só funciona depois de publicada no GitHub Pages com o endereço da planilha configurado.</div>
+<nav><div class="logo"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="#2ec4b6" stroke-width="3"/><circle cx="19" cy="15" r="9" fill="none" stroke="#ff8a3d" stroke-width="3"/></svg><span>4DJ<em>Club</em></span></div><a class="ig" href="https://www.instagram.com/4djclub/">@4djclub</a></nav>
+
+<main>
+<section class="band" style="padding-top:12px"><div class="wrap hero">
+  <div>
+    <h1>Todo mundo pode ser DJ <span>ao menos 1 dia.</span></h1>
+    <p class="lead">Uma cabine online para tocar B2B ao vivo com amigos de qualquer cidade, aprender do zero (até pelo teclado do computador) e sair com o seu set gravado em vídeo, pronto para postar.</p>
+    <form id="f" novalidate>
+      <h2>Entre na lista de espera</h2>
+      <label class="full">Seu nome<input name="nome" required maxlength="80" autocomplete="name"></label>
+      <label>E-mail<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+      <label>WhatsApp (opcional)<input name="whats" type="tel" maxlength="20" autocomplete="tel" placeholder="(19) 99999-9999"></label>
+      <label>Cidade<input name="cidade" maxlength="60" autocomplete="address-level2"></label>
+      <label>Instagram (opcional)<input name="insta" maxlength="40" placeholder="@seuperfil"></label>
+      <label>Você já toca?<select name="nivel" required><option value="">Escolha</option><option>Nunca toquei</option><option>Toco por hobby</option><option>Toco em festas e eventos</option><option>Sou DJ profissional</option></select></label>
+      <label>Qual controladora você usa?<select name="controladora"><option>Nenhuma ainda</option><option>Pioneer DDJ-FLX4</option><option>Pioneer DDJ-400</option><option>Pioneer XDJ-RX3</option><option>Outra Pioneer / AlphaTheta</option><option>Hercules</option><option>Numark</option><option>Denon DJ</option><option>Traktor / Native Instruments</option><option>Toco em CDJ e mixer</option><option>Outra</option></select></label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="consent full"><input type="checkbox" name="consent" value="sim" required> Aceito receber novidades do 4DJClub por e-mail ou WhatsApp. Meus dados servem só para isso, e posso pedir para sair da lista quando quiser.</label>
+      <button class="full" type="submit" id="go">Quero tocar</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+  </div>
+  <div class="stage" aria-hidden="true">
+    <svg viewBox="0 0 500 400">
+      <defs><radialGradient id="pl" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#2b2f37"/><stop offset="1" stop-color="#111317"/></radialGradient>
+      <linearGradient id="dk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22252c"/><stop offset="1" stop-color="#16181d"/></linearGradient></defs>
+      <ellipse cx="250" cy="360" rx="230" ry="22" fill="#000" opacity=".5"/>
+      <rect x="24" y="96" width="452" height="250" rx="26" fill="url(#dk)" stroke="#2e323a" stroke-width="2"/>
+      <rect x="24" y="96" width="452" height="10" rx="5" fill="#3a3f48" opacity=".6"/>
+      <g><circle cx="128" cy="212" r="84" fill="url(#pl)" stroke="#2ec4b6" stroke-width="4"/><g class="spin"><circle cx="128" cy="212" r="60" fill="none" stroke="#2a2e36" stroke-width="10"/><rect x="124" y="136" width="8" height="26" rx="4" fill="#2ec4b6"/></g><circle cx="128" cy="212" r="24" fill="#0e0f12"/></g>
+      <g><circle cx="372" cy="212" r="84" fill="url(#pl)" stroke="#ff8a3d" stroke-width="4"/><g class="spin r"><circle cx="372" cy="212" r="60" fill="none" stroke="#2a2e36" stroke-width="10"/><rect x="368" y="136" width="8" height="26" rx="4" fill="#ff8a3d"/></g><circle cx="372" cy="212" r="24" fill="#0e0f12"/></g>
+      <rect x="226" y="132" width="48" height="190" rx="10" fill="#101216" stroke="#2a2e36"/>
+      <g fill="#efece6"><circle cx="238" cy="152" r="7"/><circle cx="262" cy="152" r="7"/><circle cx="238" cy="178" r="7"/><circle cx="262" cy="178" r="7"/></g>
+      <rect x="234" y="198" width="8" height="70" rx="4" fill="#2a2e36"/><rect x="258" y="198" width="8" height="70" rx="4" fill="#2a2e36"/>
+      <rect x="230" y="214" width="16" height="10" rx="3" fill="#d9d6cf"/><rect x="254" y="232" width="16" height="10" rx="3" fill="#d9d6cf"/>
+      <rect x="232" y="296" width="36" height="8" rx="4" fill="#2a2e36"/><rect x="244" y="292" width="12" height="16" rx="3" fill="#d9d6cf"/>
+      <g id="wave"></g>
+    </svg>
+  </div>
+</div></section>
+
+<section class="band" style="background:var(--bg2)"><div class="wrap">
+  <h2 class="sec">Como vai funcionar</h2>
+  <div class="steps">
+    <div class="step"><h3>Toque B2B à distância</h3><p>Você em Limeira, seu amigo em Recife, os dois na mesma cabine, ao vivo. Cada um com as próprias músicas e a própria câmera.</p></div>
+    <div class="step"><h3>Aprenda do zero</h3><p>Nunca tocou? Lições curtas, nota em cada mixagem e o botão certo acendendo na tela. Funciona com controladora ou só com teclado e mouse.</p></div>
+    <div class="step"><h3>Grave e poste</h3><p>O set sai em vídeo com o seu nome, as faixas na tela e cortes prontos para Reels e TikTok.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap" style="max-width:760px">
+  <h2 class="sec" style="margin-bottom:10px">Perguntas</h2>
+  <details><summary>Preciso ter controladora?</summary><p>Não. Dá para tocar pelo teclado e pelo mouse. Se você tem controladora, ela funciona: Pioneer DDJ-FLX4, DDJ-400, DDJ-SB3 e SB2 já vêm prontas, e as outras se configuram em poucos minutos.</p></details>
+  <details><summary>Funciona com o rekordbox?</summary><p>Sim. Você importa sua coleção e a cabine usa o BPM, o grid e os hot cues que você já preparou.</p></details>
+  <details><summary>Vai ser pago?</summary><p>Quem entrar na lista de espera testa antes de todo mundo e sem custo. Os planos ainda estão sendo definidos.</p></details>
+  <details><summary>Em que aparelho funciona?</summary><p>Para tocar, no computador (Windows ou Mac) pelo navegador Chrome. Para assistir aos sets, também no celular.</p></details>
+</div></section>
+</main>
+<footer class="band"><div class="wrap">4DJClub · feito no Brasil, por DJ. Seus dados ficam só com a gente e servem apenas para falar do 4DJClub.</div></footer>
+
+<script>
+{
+const ENDPOINT=''; // cole aqui o endereço do Apps Script (termina em /exec)
+const f=document.getElementById('f'),msg=document.getElementById('msg'),go=document.getElementById('go');
+if(!ENDPOINT)document.getElementById('preview').hidden=false;
+const w=document.getElementById('wave');let h='';
+for(let i=0;i<16;i++){const x=60+i*24.5,ht=[18,34,26,46,22,40,30,50][i%8];h+=`<rect class="bar" x="${x}" y="${58-ht/2}" width="12" height="${ht}" rx="6" fill="${i<8?'#2ec4b6':'#ff8a3d'}" style="animation-delay:${(i%4)*-.119}s"/>`}
+w.innerHTML=h;
+const origem=new URLSearchParams(location.search).get('utm_source')||new URLSearchParams(location.search).get('origem')||'';
+f.addEventListener('submit',async e=>{e.preventDefault();msg.className='msg';
+  const d=new FormData(f);if(d.get('website'))return;
+  const email=String(d.get('email')||'').trim();
+  if(!String(d.get('nome')||'').trim()){msg.textContent='Escreva seu nome.';msg.classList.add('err');return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Confira o seu e-mail.';msg.classList.add('err');return}
+  if(!d.get('nivel')){msg.textContent='Conte se você já toca.';msg.classList.add('err');return}
+  if(!d.get('consent')){msg.textContent='Marque a autorização para a gente poder te avisar.';msg.classList.add('err');return}
+  if(!ENDPOINT){msg.textContent='Esta é uma prévia: o envio ainda não está ligado à planilha.';msg.classList.add('err');return}
+  d.append('origem',origem);go.disabled=true;go.textContent='Enviando…';
+  try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)});
+    f.innerHTML='';const box=document.createElement('div');box.className='done';const b=document.createElement('b');b.textContent='Você está na lista! 🎧';const p=document.createElement('p');p.textContent='Vamos te avisar assim que a cabine abrir. Enquanto isso, siga @4djclub no Instagram.';box.append(b,p);f.appendChild(box)}
+  catch(x){msg.textContent='Não consegui enviar agora. Confira sua internet e tente de novo.';msg.classList.add('err');go.disabled=false;go.textContent='Quero tocar'}});
+}
+</script>
+</body>
+</html>
